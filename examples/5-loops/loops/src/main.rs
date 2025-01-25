@@ -8,7 +8,7 @@ fn main() {
     loop {
         println!("x is {}", x);
         x += 1;
-        if x > 5 {
+        if x >= 5 {
             break;
         }
     }

@@ -1,13 +1,15 @@
-fn own_vec(mut vector: Vec<i32>) {
-    vector.push(10);
-    println!("{:?}", vector);
+fn own_vec(vector: &Vec<i32>) -> Vec<i32> {
+    let mut new_vector = vector.clone();
+    new_vector.push(10);
+    println!("{:?}", new_vector);
+    new_vector
 }
 
 fn own_integer(x: i32) {
-    x + 1;
+    let _ = x + 1;
 }
 
-fn own_string(s: String) {
+fn own_string(s: &String) {
     println!("{}", s);
 }
 
@@ -16,7 +18,7 @@ fn own_string(s: String) {
 // When you borrow a variable, you're essentially saying 
 // "I want to use this variable for a little while, but I promise I won't modify it."
 fn main() {
-    let mut my_vec = vec![1, 2, 3, 4, 5];
+    let my_vec = vec![1, 2, 3, 4, 5];
     let my_int = 10;
     let my_string = String::from("Hello, world!");
 
@@ -24,11 +26,14 @@ fn main() {
     own_integer(my_int);
     println!("{}", my_int);
 
-    own_string(my_string); // take ownership of my_string
+    own_string(&my_string); // take ownership of my_string
     // this is using my_string which has also moved and is invalid
     //println!("{:?}", my_string); // this will not compile!
 
-    own_vec(my_vec);
+    let mut new_vec = own_vec(&my_vec);
+    print!("{:?}", new_vec);
+    new_vec.pop();
+    print!("{:?}", new_vec);
     // but this is using my_vec which was borrowed (moved) and yet is now invalid
     //println!("{:?}", my_vec); // this will not compile!
 }
